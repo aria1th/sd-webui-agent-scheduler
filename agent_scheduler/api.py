@@ -1,4 +1,5 @@
 import io
+import time
 import os
 import json
 import base64
@@ -48,7 +49,8 @@ def api_callback(callback_url: str, task_id: str, status: TaskStatus, images: li
                 (img_path.name, open(os.path.abspath(img), "rb"), content_type),
             )
         )
-    print(f"Callbacking {callback_url}")
+    with open("logging.log", "a", encoding="utf-8") as f:
+        f.write(f"Callbacking {callback_url}, task_id : {task_id}, status_value = {status.value} at time {time.time()}")
     return requests.post(
         callback_url,
         timeout=25,
