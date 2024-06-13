@@ -51,12 +51,15 @@ def api_callback(callback_url: str, task_id: str, status: TaskStatus, images: li
         )
     with open("logging.log", "a", encoding="utf-8") as f:
         f.write(f"Callbacking {callback_url}, task_id : {task_id}, status_value = {status.value} at time {time.time()}")
-    return requests.post(
+    result = requests.post(
         callback_url,
         timeout=25,
         data={"task_id": task_id, "status": status.value},
         files=files,
     )
+    with open("logging.log", "a", encoding="utf-8") as f:
+        f.write(f"response: {result} at time {time.time()}")
+    return result
 
 
 def on_task_finished(
