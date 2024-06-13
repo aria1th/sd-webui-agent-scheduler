@@ -48,10 +48,10 @@ def api_callback(callback_url: str, task_id: str, status: TaskStatus, images: li
                 (img_path.name, open(os.path.abspath(img), "rb"), content_type),
             )
         )
-
+    print(f"Callbacking {callback_url}")
     return requests.post(
         callback_url,
-        timeout=5,
+        timeout=25,
         data={"task_id": task_id, "status": status.value},
         files=files,
     )
